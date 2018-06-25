@@ -34,6 +34,15 @@ for(let row = 0; row < map.length; row++) {
 
         cellDiv.className = "cell " + cellClass;
 
+        if(cellClass === "S") {
+            avatarCol = i;
+            avatarRow = row;
+        }
+
+        if(cellClass === "S" || cellClass === "F") {
+            cellDiv.innerHTML = cellClass;
+        }
+
         rowDiv.appendChild(cellDiv);
     }
 
@@ -63,17 +72,21 @@ function move(dRow, dCol) {
 
     // Using avatarRow and dRow, compute destRow (where the player should move
     // vertically). You'll need to replace "undefined" to do so.
-    const destRow = undefined; 
+    const destRow = avatarRow + dRow; 
     // Using avatarCOl and dCol, compute destCol (where the player should move
     // vertically). You'll need to replace "undefined" to do so.
-    const destCol = undefined;
+    const destCol = avatarCol + dCol;
     const destCell = map[destRow][destCol];
 
     // Check that it is within the bounds of the map, and not a wall.
     if(destCell && destCell !== "W") {
+        
         // Now that you know the player's destination, you need to actually
         // update "avatarRow" and "avatarCol". Add statements to update those
         // two variables below, before "redrawAvatar()".
+        
+        avatarRow += dRow;
+        avatarCol +=dCol;
         redrawAvatar();
     }
 
@@ -98,6 +111,34 @@ document.addEventListener('keydown', (event) => {
 
     // Write some logic to check the value of "event.key" and call "move()"
     // with the proper arguments.
+
+
+   
+    const keyName = event.key;
+    console.log('keydown event\n\n' + 'key: ' + keyName);
+
+
+if (keyName === "ArrowDown") {
+    move (1, 0);
+}
+
+if (keyName === "ArrowUp") {
+    move (-1, 0);
+}
+
+if (keyName === "ArrowLeft") {
+    move (0, -1);
+
+}
+if (keyName === "ArrowRight") {
+    move (0, 1);
+}
+
+
+document.getElementById("avatarRow").style.top = avatarRow + "px";
+document.getElementById("avatarCol").style.left = avatarCol + "px";
+
+
 });
 
 youWonDiv.addEventListener("click", () => location.reload());
